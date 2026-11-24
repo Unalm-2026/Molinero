@@ -1,0 +1,1952 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Práctica UNALM — Examen de Admisión</title>
+
+  <!-- Tipografía limpia: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          colors: {
+            unalm: {
+              50: '#f1f8f2',
+              100: '#ddeee0',
+              200: '#bcddc2',
+              600: '#24712a',
+              700: '#1B5E20',
+              800: '#144918',
+              900: '#0f3712',
+            }
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-neutral-50 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100 font-sans antialiased min-h-screen flex flex-col transition-colors duration-150">
+
+  <!-- =========================================================
+       BANNER SUPERIOR: CUENTA REGRESIVA AL EXAMEN DE ADMISIÓN
+       ========================================================= -->
+  <div class="bg-unalm-700 dark:bg-unalm-900 text-white border-b border-unalm-800">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs sm:text-sm">
+      <div class="font-medium tracking-tight">
+        Examen de Admisión UNALM - 28 de febrero de 2027
+      </div>
+      <div id="countdown-display" class="flex items-center gap-3 font-mono text-xs sm:text-sm font-semibold tabular-nums">
+        <span>--d</span>
+        <span>--h</span>
+        <span>--m</span>
+        <span>--s</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       CABECERA Y NAVEGACIÓN PRINCIPAL (4 PESTAÑAS)
+       ========================================================= -->
+  <header class="sticky top-0 z-30 bg-white/95 dark:bg-neutral-900/95 backdrop-blur border-b border-neutral-200 dark:border-neutral-800">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+      <button onclick="navigate('temario')" class="flex items-center gap-2.5 focus:outline-none text-left">
+        <span class="w-2.5 h-6 rounded-sm bg-unalm-700 inline-block"></span>
+        <span class="font-bold text-base tracking-tight text-neutral-900 dark:text-white">Práctica UNALM</span>
+      </button>
+
+      <!-- Navegación Desktop -->
+      <nav class="hidden sm:flex items-center gap-1" aria-label="Navegación principal">
+        <button data-tab="temario" onclick="navigate('temario')" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-medium transition-colors">Temario</button>
+        <button data-tab="practicar" onclick="navigate('practicar')" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-medium transition-colors">Practicar</button>
+        <button data-tab="simulacro" onclick="navigate('simulacro')" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-medium transition-colors">Simulacro</button>
+        <button data-tab="banco" onclick="navigate('banco')" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-medium transition-colors">Banco</button>
+      </nav>
+
+      <!-- Interruptor discreto de modo oscuro -->
+      <button onclick="toggleTheme()" aria-label="Cambiar tema claro u oscuro" class="p-2 rounded-lg text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-800 transition-colors">
+        <svg id="icon-sun" class="w-4 h-4 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path stroke-linecap="round" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"></path>
+        </svg>
+        <svg id="icon-moon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Navegación Móvil -->
+    <nav class="sm:hidden border-t border-neutral-200 dark:border-neutral-800 px-2 py-1.5 grid grid-cols-4 gap-1 bg-white dark:bg-neutral-900" aria-label="Navegación móvil">
+      <button data-tab-mob="temario" onclick="navigate('temario')" class="tab-mob-btn py-1.5 rounded-lg text-xs font-medium text-center transition-colors">Temario</button>
+      <button data-tab-mob="practicar" onclick="navigate('practicar')" class="tab-mob-btn py-1.5 rounded-lg text-xs font-medium text-center transition-colors">Practicar</button>
+      <button data-tab-mob="simulacro" onclick="navigate('simulacro')" class="tab-mob-btn py-1.5 rounded-lg text-xs font-medium text-center transition-colors">Simulacro</button>
+      <button data-tab-mob="banco" onclick="navigate('banco')" class="tab-mob-btn py-1.5 rounded-lg text-xs font-medium text-center transition-colors">Banco</button>
+    </nav>
+  </header>
+
+  <!-- =========================================================
+       CONTENIDO PRINCIPAL
+       ========================================================= -->
+  <main id="app-root" class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8">
+    <!-- Renderizado dinámicamente -->
+  </main>
+
+  <!-- Pie de página minimalista -->
+  <footer class="border-t border-neutral-200 dark:border-neutral-800 py-5 mt-8">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-neutral-500 dark:text-neutral-400">
+      <span>Práctica UNALM — Basado en el Temario Oficial de Admisión (100 preguntas, 180 minutos)</span>
+      <span>Puntaje: Correcta +1.00 | Incorrecta -0.17 | En blanco 0.00</span>
+    </div>
+  </footer>
+
+  <!-- =========================================================
+       NOTIFICACIONES DISCRETAS (TOAST)
+       ========================================================= -->
+  <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+  <!-- =========================================================
+       MODAL DE CONFIRMACIÓN PERSONALIZADO
+       ========================================================= -->
+  <div id="confirm-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+    <div class="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl max-w-md w-full p-5 shadow-xl">
+      <h3 id="modal-title" class="font-semibold text-base text-neutral-900 dark:text-white mb-2">Confirmar</h3>
+      <p id="modal-body" class="text-sm text-neutral-600 dark:text-neutral-300 mb-5 leading-relaxed"></p>
+      <div class="flex justify-end gap-2">
+        <button id="modal-cancel" class="px-3.5 py-2 rounded-lg text-xs font-medium bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-200 transition-colors">Cancelar</button>
+        <button id="modal-ok" class="px-3.5 py-2 rounded-lg text-xs font-medium bg-unalm-700 hover:bg-unalm-800 text-white transition-colors">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       LÓGICA DE LA APLICACIÓN
+       ========================================================= -->
+  <script>
+    /* ===========================================================
+       1. CONSTANTES DE PUNTAJE Y ESTRUCTURA OFICIAL UNALM
+       =========================================================== */
+    const SCORE_CORRECT = 1.00;
+    const SCORE_INCORRECT = -0.17;
+    const SCORE_BLANK = 0.00;
+
+    // Fecha objetivo: 28 de febrero de 2027 a las 08:00 AM, hora de Perú (UTC-5)
+    const EXAM_TARGET_ISO = '2027-02-28T08:00:00-05:00';
+
+    const AREAS = [
+      { id: 'competencias', name: '1. Competencias Generales', officialCount: 28 },
+      { id: 'matematicas', name: '2. Matemáticas', officialCount: 25 },
+      { id: 'naturales', name: '3. Ciencias Naturales', officialCount: 27 },
+      { id: 'sociales', name: '4. Ciencias Sociales', officialCount: 20 }
+    ];
+
+    const COURSES = [
+      {
+        id: 'rv',
+        areaId: 'competencias',
+        name: 'Razonamiento Verbal',
+        officialCount: 14,
+        topics: [
+          '1. Comprensión de lectura',
+          '2. Vocabulario',
+          '3. Analogías',
+          '4. Oraciones incompletas',
+          '5. Organización de la información'
+        ]
+      },
+      {
+        id: 'rm',
+        areaId: 'competencias',
+        name: 'Razonamiento Matemático',
+        officialCount: 14,
+        topics: [
+          '1. Razonamiento lógico matemático',
+          '2. Psicotécnico',
+          '3. Sumas',
+          '4. Conteo',
+          '5. Planteo de ecuaciones',
+          '6. Operadores matemáticos',
+          '7. Áreas y perímetros de regiones',
+          '8. Análisis combinatorio'
+        ]
+      },
+      {
+        id: 'aritmetica',
+        areaId: 'matematicas',
+        name: 'Aritmética',
+        officialCount: 6,
+        topics: [
+          '1. Conjuntos',
+          '2. Números enteros',
+          '3. Números racionales',
+          '4. Razones y proporciones',
+          '5. Magnitudes proporcionales',
+          '6. Tanto por ciento',
+          '7. Regla de tres',
+          '8. Elementos de estadísticas'
+        ]
+      },
+      {
+        id: 'algebra',
+        areaId: 'matematicas',
+        name: 'Álgebra',
+        officialCount: 9,
+        topics: [
+          '1. Leyes de exponentes',
+          '2. Polinomios',
+          '3. Factorización de polinomios',
+          '4. Fracciones algebraicas',
+          '5. Desigualdades e inecuaciones',
+          '6. Valor absoluto',
+          '7. Radicación',
+          '8. Números complejos',
+          '9. Ecuaciones lineales',
+          '10. Ecuaciones de segundo grado',
+          '11. Sistema de ecuaciones lineales',
+          '12. Ecuaciones polinomiales',
+          '13. Funciones logarítmicas y exponenciales',
+          '14. Relaciones y funciones'
+        ]
+      },
+      {
+        id: 'geometria',
+        areaId: 'matematicas',
+        name: 'Geometría',
+        officialCount: 5,
+        topics: [
+          '1. Conceptos fundamentales',
+          '2. Triángulos',
+          '3. Polígonos',
+          '4. Cuadriláteros',
+          '5. Circunferencia',
+          '6. Proporcionalidad y semejanza',
+          '7. Relaciones métricas',
+          '8. Áreas',
+          '9. Geometría del espacio',
+          '10. Poliedro',
+          '11. Prisma y pirámide',
+          '12. Superficies de revolución'
+        ]
+      },
+      {
+        id: 'trigonometria',
+        areaId: 'matematicas',
+        name: 'Trigonometría',
+        officialCount: 5,
+        topics: [
+          '1. Ángulos trigonométricos y sistema de medición angular',
+          '2. Sector circular',
+          '3. Razones trigonométricas de un ángulo agudo',
+          '4. Resolución de triángulos rectángulos',
+          '5. Razones trigonométricas de un ángulo en posición normal o estándar',
+          '6. Círculo trigonométrico',
+          '7. Funciones trigonométricas inversas',
+          '8. Identidades trigonométricas',
+          '9. Reducción al primer cuadrante',
+          '10. Ecuaciones trigonométricas',
+          '11. Resolución de triángulos oblicuángulos'
+        ]
+      },
+      {
+        id: 'biologia',
+        areaId: 'naturales',
+        name: 'Biología',
+        officialCount: 10,
+        topics: [
+          '1. Características y composición química de la materia viviente',
+          '2. La célula: estructura y función',
+          '3. Bases químicas de la herencia y división celular',
+          '4. Funciones del organismo',
+          '5. Metabolismo celular',
+          '6. Evolución y diversidad de las especies',
+          '7. Ecología'
+        ]
+      },
+      {
+        id: 'quimica',
+        areaId: 'naturales',
+        name: 'Química',
+        officialCount: 9,
+        topics: [
+          '1. Materia',
+          '2. El átomo y su estructura',
+          '3. Tabla periódica, ley periódica',
+          '4. Enlaces químicos',
+          '5. Reacciones químicas',
+          '6. Compuestos oxigenados',
+          '7. Unidades químicas de medición',
+          '8. Propiedades de los compuestos orgánicos',
+          '9. Compuestos nitrogenados',
+          '10. Nomenclatura de compuestos inorgánicos',
+          '11. Hidrocarburos',
+          '12. Estequiometría'
+        ]
+      },
+      {
+        id: 'fisica',
+        areaId: 'naturales',
+        name: 'Física',
+        officialCount: 8,
+        topics: [
+          '1. Vectores y escalares',
+          '2. Cinemática',
+          '3. Dinámica',
+          '4. Calorimetría',
+          '5. Electromagnetismo',
+          '6. Óptica',
+          '7. Física moderna'
+        ]
+      },
+      {
+        id: 'economia',
+        areaId: 'sociales',
+        name: 'Economía',
+        officialCount: 6,
+        topics: [
+          '1. Fundamentos de economía',
+          '2. Las necesidades y los bienes',
+          '3. El proceso económico - sectores productivos',
+          '4. Factores productivos',
+          '5. La circulación y los mercados',
+          '6. La teoría de la demanda',
+          '7. El dinero: definición y funciones',
+          '8. El sistema financiero',
+          '9. Banco Central de Reserva del Perú',
+          '10. El sector externo',
+          '11. La integración económica regional y mundial',
+          '12. La balanza de pagos',
+          '13. El sector público',
+          '14. El presupuesto público',
+          '15. Las cuentas nacionales',
+          '16. Los ciclos económicos - etapas'
+        ]
+      },
+      {
+        id: 'historia',
+        areaId: 'sociales',
+        name: 'Historia del Perú y del Mundo',
+        officialCount: 7,
+        topics: [
+          '1. La Segunda Revolución Industrial (1870-1914)',
+          '2. El Primer Militarismo (1827-1872)',
+          '3. Desde el Primer Civilismo hasta la Guerra del Salitre (1879-1883)',
+          '4. Desde la Primera Guerra Mundial (1914-1919) hasta la Revolución Rusa (1917)',
+          '5. Movimientos totalitarios - 2da Guerra Mundial',
+          '6. Desde el Oncenio hasta el 3er Militarismo',
+          '7. La Guerra Fría (1945-1991) y la Guerra de Corea (1950-1953)',
+          '8. Los años cuarenta y cincuenta en el Perú',
+          '9. El proceso de descolonización en Asia y África',
+          '10. La Coexistencia Pacífica (1956-1977)',
+          '11. Desde el Gobierno de la Convivencia hasta el Belaundismo',
+          '12. La fase del rebrote y el desenlace final de la Guerra Fría (1978-1991)',
+          '13. Gobierno de las Fuerzas Armadas (1968-1980)',
+          '14. El mundo de la Post Guerra Fría y el Nuevo Orden Mundial',
+          '15. La década de los años 90 en el Perú',
+          '16. Los gobiernos del siglo XXI'
+        ]
+      },
+      {
+        id: 'geografia',
+        areaId: 'sociales',
+        name: 'Geografía',
+        officialCount: 7,
+        topics: [
+          '1. La geografía como ciencia',
+          '2. El universo',
+          '3. Evolución de la Tierra',
+          '4. Representaciones gráficas del geosistema y el sistema mundial de la hora',
+          '5. Morfología del territorio peruano',
+          '6. Las vertientes hidrográficas peruanas',
+          '7. El clima y el cambio climático',
+          '8. Los recursos naturales, ordenamiento territorial',
+          '9. Geopolítica en el Perú. La población peruana',
+          '10. Las actividades económicas',
+          '11. Problemática ambiental en el mundo',
+          '12. Problemas ambientales en el Perú'
+        ]
+      }
+    ];
+
+    /* ===========================================================
+       2. BANCO INICIAL: 36 PREGUNTAS (3 POR CADA UNO DE LOS 12 CURSOS)
+       Estrictamente alineadas al Temario Oficial UNALM
+       =========================================================== */
+    const INITIAL_QUESTIONS = [
+      // --- RAZONAMIENTO VERBAL (3) ---
+      {
+        id: 'rv-1',
+        course: 'rv',
+        topic: '2. Vocabulario',
+        question: 'Señale el sinónimo más preciso del término PROLÍFICO:',
+        options: ['Estéril', 'Fecundo', 'Escaso', 'Breve', 'Árido'],
+        answer: 1,
+        explanation: 'Prolífico significa que tiene virtud de engendrar o producir abundantemente; su sinónimo directo es fecundo.'
+      },
+      {
+        id: 'rv-2',
+        course: 'rv',
+        topic: '3. Analogías',
+        question: 'Determine el par análogo correspondiente a: BOTÁNICA : PLANTAS ::',
+        options: ['Historia : Futuro', 'Geología : Rocas', 'Arquitectura : Pintura', 'Aritmética : Poemas', 'Medicina : Laboratorio'],
+        answer: 1,
+        explanation: 'La relación base es ciencia y su objeto de estudio: la botánica estudia las plantas, así como la geología estudia las rocas y la estructura terrestre.'
+      },
+      {
+        id: 'rv-3',
+        course: 'rv',
+        topic: '4. Oraciones incompletas',
+        question: 'Complete la oración con los conectores adecuados: "El informe presentó datos precisos; _______, el comité solicitó una revisión adicional _______ verificar la metodología."',
+        options: ['sin embargo - para', 'por lo tanto - pero', 'aunque - porque', 'además - sino', 'es decir - mas'],
+        answer: 0,
+        explanation: 'Se requiere un conector adversativo ("sin embargo") para contrastar la precisión inicial con el pedido de revisión, y un conector de finalidad ("para").'
+      },
+
+      // --- RAZONAMIENTO MATEMÁTICO (3) ---
+      {
+        id: 'rm-1',
+        course: 'rm',
+        topic: '3. Sumas',
+        question: 'Calcule el valor de la suma de los 15 primeros números enteros positivos: S = 1 + 2 + 3 + ... + 15.',
+        options: ['105', '110', '120', '125', '135'],
+        answer: 2,
+        explanation: 'Aplicando la fórmula de suma de los primeros n naturales: S = n(n + 1)/2 = 15(16)/2 = 120.'
+      },
+      {
+        id: 'rm-2',
+        course: 'rm',
+        topic: '6. Operadores matemáticos',
+        question: 'Si se define el operador a # b = 3a - 2b, calcule el valor de (4 # 1) # 3.',
+        options: ['20', '22', '24', '26', '28'],
+        answer: 2,
+        explanation: 'Primero calculamos 4 # 1 = 3(4) - 2(1) = 10. Luego operamos 10 # 3 = 3(10) - 2(3) = 30 - 6 = 24.'
+      },
+      {
+        id: 'rm-3',
+        course: 'rm',
+        topic: '8. Análisis combinatorio',
+        question: '¿De cuántas maneras distintas se pueden elegir 2 representantes de un grupo de 6 estudiantes?',
+        options: ['12', '15', '18', '30', '36'],
+        answer: 1,
+        explanation: 'Como el orden de elección no importa, usamos combinaciones: C(6,2) = 6! / (2! * 4!) = (6 * 5) / 2 = 15.'
+      },
+
+      // --- ARITMÉTICA (3) ---
+      {
+        id: 'ari-1',
+        course: 'aritmetica',
+        topic: '1. Conjuntos',
+        question: 'Si el conjunto A = {x en N / 2 <= x <= 6}, ¿cuántos subconjuntos propios posee el conjunto A?',
+        options: ['15', '16', '31', '32', '63'],
+        answer: 2,
+        explanation: 'Los elementos de A son {2, 3, 4, 5, 6}, por lo que n(A) = 5. El número de subconjuntos propios es 2^n - 1 = 2^5 - 1 = 31.'
+      },
+      {
+        id: 'ari-2',
+        course: 'aritmetica',
+        topic: '2. Números enteros',
+        question: 'Calcule el máximo común divisor (MCD) de 48 y 72.',
+        options: ['12', '16', '18', '24', '36'],
+        answer: 3,
+        explanation: 'Descomposición canónica: 48 = 2^4 * 3 y 72 = 2^3 * 3^2. Tomando los factores comunes con menor exponente: MCD = 2^3 * 3 = 24.'
+      },
+      {
+        id: 'ari-3',
+        course: 'aritmetica',
+        topic: '7. Regla de tres',
+        question: 'Si 8 trabajadores culminan una obra en 15 días, ¿en cuántos días culminarán la misma obra 12 trabajadores con igual rendimiento?',
+        options: ['8 días', '9 días', '10 días', '11 días', '12 días'],
+        answer: 2,
+        explanation: 'Son magnitudes inversamente proporcionales: 8 * 15 = 12 * x, de donde 120 = 12x y x = 10 días.'
+      },
+
+      // --- ÁLGEBRA (3) ---
+      {
+        id: 'alg-1',
+        course: 'algebra',
+        topic: '1. Leyes de exponentes',
+        question: 'Simplifique la expresión E = (3^4 * 3^5) / 3^7.',
+        options: ['3', '6', '9', '27', '81'],
+        answer: 2,
+        explanation: 'En producto de bases iguales se suman exponentes (4 + 5 = 9) y en cociente se restan (9 - 7 = 2). Luego, E = 3^2 = 9.'
+      },
+      {
+        id: 'alg-2',
+        course: 'algebra',
+        topic: '10. Ecuaciones de segundo grado',
+        question: 'En la ecuación cuadrática x^2 - 9x + 20 = 0, determine el producto de sus raíces.',
+        options: ['-20', '-9', '9', '11', '20'],
+        answer: 4,
+        explanation: 'Por propiedades de las raíces de ax^2 + bx + c = 0, el producto es c/a = 20/1 = 20 (las raíces son 4 y 5).'
+      },
+      {
+        id: 'alg-3',
+        course: 'algebra',
+        topic: '13. Funciones logarítmicas y exponenciales',
+        question: 'Calcule el valor de x en la ecuación log_2(x - 1) = 3.',
+        options: ['5', '7', '8', '9', '10'],
+        answer: 3,
+        explanation: 'Por definición de logaritmo: x - 1 = 2^3 = 8, por lo tanto x = 9.'
+      },
+
+      // --- GEOMETRÍA (3) ---
+      {
+        id: 'geo-1',
+        course: 'geometria',
+        topic: '3. Polígonos',
+        question: '¿Cuál es la suma de las medidas de los ángulos interiores de un hexágono convexo?',
+        options: ['360 grados', '540 grados', '720 grados', '900 grados', '1080 grados'],
+        answer: 2,
+        explanation: 'La suma de ángulos interiores de un polígono de n lados es 180(n - 2). Para n = 6: 180(4) = 720 grados.'
+      },
+      {
+        id: 'geo-2',
+        course: 'geometria',
+        topic: '7. Relaciones métricas',
+        question: 'En un triángulo rectángulo, las proyecciones de los catetos sobre la hipotenusa miden 4 cm y 9 cm. Calcule la longitud de la altura relativa a la hipotenusa.',
+        options: ['5 cm', '6 cm', '6.5 cm', '7 cm', '8 cm'],
+        answer: 1,
+        explanation: 'Por el teorema de la altura relativa a la hipotenusa: h^2 = m * n = 4 * 9 = 36, por lo tanto h = 6 cm.'
+      },
+      {
+        id: 'geo-3',
+        course: 'geometria',
+        topic: '12. Superficies de revolución',
+        question: 'Calcule el volumen de un cilindro circular recto cuyo radio de base es 3 cm y cuya altura es 10 cm.',
+        options: ['30 pi cm^3', '60 pi cm^3', '90 pi cm^3', '120 pi cm^3', '150 pi cm^3'],
+        answer: 2,
+        explanation: 'El volumen del cilindro es V = pi * r^2 * h = pi * (3^2) * 10 = 90 pi cm^3.'
+      },
+
+      // --- TRIGONOMETRÍA (3) ---
+      {
+        id: 'tri-1',
+        course: 'trigonometria',
+        topic: '1. Ángulos trigonométricos y sistema de medición angular',
+        question: 'Convierta un ángulo de 60 grados sexagesimales al sistema radial.',
+        options: ['pi/6 rad', 'pi/4 rad', 'pi/3 rad', 'pi/2 rad', '2pi/3 rad'],
+        answer: 2,
+        explanation: 'Multiplicamos por pi / 180: 60 * (pi / 180) = pi/3 rad.'
+      },
+      {
+        id: 'tri-2',
+        course: 'trigonometria',
+        topic: '2. Sector circular',
+        question: 'Calcule la longitud de arco de un sector circular de radio 12 cm y ángulo central de pi/4 radianes.',
+        options: ['2 pi cm', '3 pi cm', '4 pi cm', '6 pi cm', '8 pi cm'],
+        answer: 1,
+        explanation: 'Aplicamos L = theta * R = (pi/4) * 12 = 3 pi cm.'
+      },
+      {
+        id: 'tri-3',
+        course: 'trigonometria',
+        topic: '8. Identidades trigonométricas',
+        question: 'Si sen(x) = 5/13 y x es un ángulo agudo, calcule el valor de cos(x).',
+        options: ['5/12', '8/13', '12/13', '13/12', '7/13'],
+        answer: 2,
+        explanation: 'Por la identidad pitagórica sen^2(x) + cos^2(x) = 1: cos(x) = sqrt(1 - 25/169) = sqrt(144/169) = 12/13.'
+      },
+
+      // --- BIOLOGÍA (3) ---
+      {
+        id: 'bio-1',
+        course: 'biologia',
+        topic: '2. La célula: estructura y función',
+        question: '¿Qué organela celular vegetal contiene enzimas encargadas de convertir los lípidos almacenados en las semillas en carbohidratos durante la germinación?',
+        options: ['Lisosoma', 'Glioxisoma', 'Aparato de Golgi', 'Nucleolo', 'Centriolo'],
+        answer: 1,
+        explanation: 'Los glioxisomas son microcuerpos propios de células vegetales (especialmente semillas oleaginosas) que realizan el ciclo del glioxilato para transformar lípidos en azúcares.'
+      },
+      {
+        id: 'bio-2',
+        course: 'biologia',
+        topic: '3. Bases químicas de la herencia y división celular',
+        question: 'Al cruzar dos individuos heterocigotos (Aa x Aa) en un caso de dominancia completa, ¿qué fracción de la descendencia presentará el fenotipo recesivo?',
+        options: ['1/2', '1/4', '3/4', '1/8', '1/16'],
+        answer: 1,
+        explanation: 'El cruce Aa x Aa produce genotipos AA, Aa, Aa y aa. Solo el genotipo homocigoto recesivo (aa), equivalente a 1/4 (25%), expresa el fenotipo recesivo.'
+      },
+      {
+        id: 'bio-3',
+        course: 'biologia',
+        topic: '5. Metabolismo celular',
+        question: 'En la respiración celular aeróbica de una célula eucariota, la glucólisis ocurre en:',
+        options: ['La matriz mitocondrial', 'Las crestas mitocondriales', 'El citosol', 'El estroma del cloroplasto', 'La membrana nuclear'],
+        answer: 2,
+        explanation: 'La glucólisis es una vía metabólica anaeróbica que se realiza en el citosol (citoplasma) y convierte una molécula de glucosa en dos moléculas de piruvato.'
+      },
+
+      // --- QUÍMICA (3) ---
+      {
+        id: 'qui-1',
+        course: 'quimica',
+        topic: '2. El átomo y su estructura',
+        question: 'Un átomo neutro tiene número de masa A = 39 y 20 neutrones. ¿Cuál es su número atómico (Z)?',
+        options: ['17', '18', '19', '20', '21'],
+        answer: 2,
+        explanation: 'Se cumple la relación A = Z + n. Despejando: Z = 39 - 20 = 19 (corresponde al potasio).'
+      },
+      {
+        id: 'qui-2',
+        course: 'quimica',
+        topic: '7. Unidades químicas de medición',
+        question: 'Se disuelven 2 moles de cloruro de sodio (NaCl) en agua hasta completar 500 mL de solución. ¿Cuál es la molaridad de la solución?',
+        options: ['1.0 M', '2.0 M', '3.0 M', '4.0 M', '5.0 M'],
+        answer: 3,
+        explanation: 'La molaridad es M = moles de soluto / volumen en litros. Como 500 mL = 0.5 L, entonces M = 2 / 0.5 = 4.0 M.'
+      },
+      {
+        id: 'qui-3',
+        course: 'quimica',
+        topic: '11. Hidrocarburos',
+        question: '¿Cuál es la fórmula molecular de un alcano acíclico que posee 5 átomos de carbono?',
+        options: ['C5H8', 'C5H10', 'C5H12', 'C5H14', 'C5H6'],
+        answer: 2,
+        explanation: 'Los alcanos acíclicos siguen la fórmula general CnH2n+2. Para n = 5 resulta C5H12 (pentano).'
+      },
+
+      // --- FÍSICA (3) ---
+      {
+        id: 'fis-1',
+        course: 'fisica',
+        topic: '2. Cinemática',
+        question: 'Un móvil parte del reposo con MRUV y aceleración constante de 3 m/s^2. ¿Qué distancia recorre en los primeros 4 segundos?',
+        options: ['12 m', '18 m', '24 m', '36 m', '48 m'],
+        answer: 2,
+        explanation: 'Usando d = v0*t + (1/2)*a*t^2 con v0 = 0: d = 0.5 * 3 * (4^2) = 1.5 * 16 = 24 m.'
+      },
+      {
+        id: 'fis-2',
+        course: 'fisica',
+        topic: '3. Dinámica',
+        question: 'Sobre un bloque de 4 kg apoyado en una superficie horizontal sin fricción actúa una fuerza horizontal constante de 20 N. Calcule su aceleración.',
+        options: ['2 m/s^2', '4 m/s^2', '5 m/s^2', '8 m/s^2', '10 m/s^2'],
+        answer: 2,
+        explanation: 'Por la Segunda Ley de Newton (F = m * a): a = F / m = 20 N / 4 kg = 5 m/s^2.'
+      },
+      {
+        id: 'fis-3',
+        course: 'fisica',
+        topic: '5. Electromagnetismo',
+        question: 'Dos resistencias de 6 ohmios y 3 ohmios se conectan en paralelo. ¿Cuál es la resistencia equivalente del conjunto?',
+        options: ['1 ohmio', '2 ohmios', '4.5 ohmios', '9 ohmios', '18 ohmios'],
+        answer: 1,
+        explanation: 'Para dos resistencias en paralelo: Req = (R1 * R2) / (R1 + R2) = (6 * 3) / (6 + 3) = 18 / 9 = 2 ohmios.'
+      },
+
+      // --- ECONOMÍA (3) ---
+      {
+        id: 'eco-1',
+        course: 'economia',
+        topic: '6. La teoría de la demanda',
+        question: 'Según la Ley de la Demanda (ceteris paribus), cuando disminuye el precio de un bien normal, la cantidad demandada:',
+        options: ['Disminuye', 'Aumenta', 'Permanece constante', 'Se hace nula', 'Desplaza la oferta a la izquierda'],
+        answer: 1,
+        explanation: 'La Ley de la Demanda establece una relación inversa entre el precio de un bien y su cantidad demandada.'
+      },
+      {
+        id: 'eco-2',
+        course: 'economia',
+        topic: '9. Banco Central de Reserva del Perú',
+        question: 'De acuerdo con la Constitución Política del Perú, la finalidad principal del Banco Central de Reserva del Perú (BCRP) es:',
+        options: [
+          'Recaudar los impuestos nacionales',
+          'Aprobar el Presupuesto General de la República',
+          'Preservar la estabilidad monetaria',
+          'Otorgar créditos directos a los municipios',
+          'Fijar los precios de todos los alimentos'
+        ],
+        answer: 2,
+        explanation: 'El BCRP es un organismo autónomo cuya finalidad constitucional es preservar la estabilidad monetaria controlando la inflación.'
+      },
+      {
+        id: 'eco-3',
+        course: 'economia',
+        topic: '12. La balanza de pagos',
+        question: 'El impuesto que grava el ingreso de mercancías extranjeras al territorio aduanero de un país se denomina:',
+        options: ['Divisa', 'Arancel', 'Subsidio', 'Remesa', 'Depreciación'],
+        answer: 1,
+        explanation: 'El arancel es un tributo aplicado a los bienes importados (y ocasionalmente exportados) al cruzar las fronteras aduaneras.'
+      },
+
+      // --- HISTORIA DEL PERÚ Y DEL MUNDO (3) ---
+      {
+        id: 'his-1',
+        course: 'historia',
+        topic: '2. El Primer Militarismo (1827-1872)',
+        question: 'El periodo conocido como la "Prosperidad Falaz" (1845-1872) en la historia republicana del Perú se caracterizó principalmente por los cuantiosos ingresos fiscales derivados de la exportación de:',
+        options: ['Caucho amazónico', 'Guano de las islas', 'Petróleo de la costa norte', 'Algodón de los valles costeños', 'Harina de pescado'],
+        answer: 1,
+        explanation: 'Entre 1845 y 1872 el Estado peruano obtuvo enormes ingresos por la venta del guano de las islas, fenómeno que Jorge Basadre denominó Prosperidad Falaz.'
+      },
+      {
+        id: 'his-2',
+        course: 'historia',
+        topic: '6. Desde el Oncenio hasta el 3er Militarismo',
+        question: 'El periodo denominado el Oncenio (1919-1930) correspondió al segundo gobierno constitucional del presidente:',
+        options: ['José Pardo y Barreda', 'Augusto B. Leguía', 'Luis M. Sánchez Cerro', 'Óscar R. Benavides', 'Manuel Prado Ugarteche'],
+        answer: 1,
+        explanation: 'Augusto B. Leguía gobernó el Perú durante once años consecutivos entre 1919 y 1930, etapa conocida como el Oncenio o la Patria Nueva.'
+      },
+      {
+        id: 'his-3',
+        course: 'historia',
+        topic: '12. La fase del rebrote y el desenlace final de la Guerra Fría (1978-1991)',
+        question: '¿Qué hecho histórico ocurrido en noviembre de 1989 simbolizó el colapso del bloque socialista europeo y aceleró la reunificación alemana?',
+        options: [
+          'La firma del Tratado de Versalles',
+          'La Crisis de los Misiles en Cuba',
+          'La caída del Muro de Berlín',
+          'El inicio de la Guerra de Corea',
+          'La Conferencia de Bandung'
+        ],
+        answer: 2,
+        explanation: 'La caída del Muro de Berlín el 9 de noviembre de 1989 marcó el fin simbólico de la división de Europa durante la Guerra Fría y condujo a la reunificación de Alemania en 1990.'
+      },
+
+      // --- GEOGRAFÍA (3) ---
+      {
+        id: 'geog-1',
+        course: 'geografia',
+        topic: '4. Representaciones gráficas del geosistema y el sistema mundial de la hora',
+        question: 'La distancia angular medida en grados desde la línea ecuatorial hacia el norte o hacia el sur de cualquier punto de la superficie terrestre se denomina:',
+        options: ['Longitud', 'Latitud', 'Altitud', 'Meridiano', 'Huso horario'],
+        answer: 1,
+        explanation: 'La latitud mide la distancia angular respecto al Ecuador terrestre (0 grados) hasta los polos (90 grados Norte o Sur).'
+      },
+      {
+        id: 'geog-2',
+        course: 'geografia',
+        topic: '5. Morfología del territorio peruano',
+        question: 'Según la clasificación de las ocho regiones naturales del Perú de Javier Pulgar Vidal, la región ubicada entre los 2300 y 3500 metros sobre el nivel del mar, de clima templado y gran importancia agrícola, es:',
+        options: ['Chala', 'Yunga', 'Quechua', 'Puna', 'Omagua'],
+        answer: 2,
+        explanation: 'La región Quechua se extiende entre los 2300 y 3500 m s. n. m. y concentra importantes valles interandinos con clima templado.'
+      },
+      {
+        id: 'geog-3',
+        course: 'geografia',
+        topic: '6. Las vertientes hidrográficas peruanas',
+        question: '¿Cuál de las siguientes vertientes hidrográficas del Perú es de tipo endorreico (sus ríos no desembocan en el océano)?',
+        options: [
+          'Vertiente del Pacífico',
+          'Vertiente del Amazonas',
+          'Hoya hidrográfica del Titicaca',
+          'Cuenca del río Rímac',
+          'Cuenca del río Ucayali'
+        ],
+        answer: 2,
+        explanation: 'La vertiente u hoya del Titicaca es una cuenca endorreica ubicada en la meseta del Collao, cuyas aguas drenan hacia el lago Titicaca sin salida al mar.'
+      }
+    ];
+
+    /* ===========================================================
+       3. ESTADO GLOBAL Y PERSISTENCIA
+       =========================================================== */
+    const STORAGE_KEY = 'practica_unalm_state_v1';
+
+    let state = {
+      tab: 'temario', // 'temario' | 'practicar' | 'simulacro' | 'banco'
+      theme: 'light',
+      expandedCourseId: 'rv',
+      customQuestions: [],
+      // Estado de pestaña Practicar
+      practice: {
+        areaFilter: 'all',
+        courseFilter: 'all',
+        topicFilter: 'all',
+        queue: [],
+        index: 0,
+        selected: null,
+        resolved: false,
+        wasBlank: false,
+        stats: { correct: 0, incorrect: 0, blank: 0 }
+      },
+      // Estado de pestaña Simulacro
+      simulacro: {
+        phase: 'setup', // 'setup' | 'running' | 'results'
+        questions: [],
+        answers: {}, // { [idx]: optionIndex }
+        currentIndex: 0,
+        secondsLeft: 0,
+        timerId: null
+      }
+    };
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          state.theme = parsed.theme || 'light';
+          state.customQuestions = Array.isArray(parsed.customQuestions) ? parsed.customQuestions : [];
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          state.theme = 'dark';
+        }
+      } catch (e) {
+        console.error('Error al leer localStorage:', e);
+      }
+      applyTheme();
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          theme: state.theme,
+          customQuestions: state.customQuestions
+        }));
+      } catch (e) {
+        console.error('Error al guardar en localStorage:', e);
+      }
+    }
+
+    function getAllQuestions() {
+      return [...INITIAL_QUESTIONS, ...state.customQuestions];
+    }
+
+    function getCourse(courseId) {
+      return COURSES.find(c => c.id === courseId);
+    }
+
+    function getArea(areaId) {
+      return AREAS.find(a => a.id === areaId);
+    }
+
+    function calcScore(correct, incorrect) {
+      return (correct * SCORE_CORRECT) + (incorrect * SCORE_INCORRECT);
+    }
+
+    function formatScore(value) {
+      const fixed = value.toFixed(2);
+      if (value > 0) return '+' + fixed;
+      return fixed;
+    }
+
+    function escapeHTML(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function shuffle(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    /* ===========================================================
+       4. TEMA, CUENTA REGRESIVA, TOASTS Y MODALES
+       =========================================================== */
+    function applyTheme() {
+      const root = document.documentElement;
+      const sun = document.getElementById('icon-sun');
+      const moon = document.getElementById('icon-moon');
+      if (state.theme === 'dark') {
+        root.classList.add('dark');
+        if (sun) sun.classList.remove('hidden');
+        if (moon) moon.classList.add('hidden');
+      } else {
+        root.classList.remove('dark');
+        if (sun) sun.classList.add('hidden');
+        if (moon) moon.classList.remove('hidden');
+      }
+    }
+
+    function toggleTheme() {
+      state.theme = state.theme === 'dark' ? 'light' : 'dark';
+      applyTheme();
+      saveState();
+    }
+
+    function updateCountdown() {
+      const el = document.getElementById('countdown-display');
+      if (!el) return;
+
+      const targetTime = new Date(EXAM_TARGET_ISO).getTime();
+      const now = Date.now();
+      const diff = targetTime - now;
+
+      if (diff <= 0) {
+        el.innerHTML = '<span>Examen en curso o finalizado</span>';
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      el.innerHTML = `
+        <span>${days}d</span>
+        <span>${String(hours).padStart(2, '0')}h</span>
+        <span>${String(minutes).padStart(2, '0')}m</span>
+        <span>${String(seconds).padStart(2, '0')}s</span>
+      `;
+    }
+
+    function showToast(message, isError = false) {
+      const container = document.getElementById('toast-container');
+      const div = document.createElement('div');
+      div.className = `pointer-events-auto px-4 py-2.5 rounded-lg border text-xs font-medium shadow-md transition-opacity duration-200 ${
+        isError
+          ? 'bg-red-700 text-white border-red-800'
+          : 'bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 border-neutral-800 dark:border-neutral-300'
+      }`;
+      div.textContent = message;
+      container.appendChild(div);
+      setTimeout(() => {
+        div.style.opacity = '0';
+        setTimeout(() => div.remove(), 250);
+      }, 2800);
+    }
+
+    function openConfirmModal(title, body, onConfirm, okLabel = 'Confirmar') {
+      const modal = document.getElementById('confirm-modal');
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-body').textContent = body;
+      const btnOk = document.getElementById('modal-ok');
+      const btnCancel = document.getElementById('modal-cancel');
+      btnOk.textContent = okLabel;
+      modal.classList.remove('hidden');
+
+      const close = () => {
+        modal.classList.add('hidden');
+        btnOk.onclick = null;
+        btnCancel.onclick = null;
+      };
+      btnCancel.onclick = close;
+      btnOk.onclick = () => {
+        close();
+        if (onConfirm) onConfirm();
+      };
+    }
+
+    /* ===========================================================
+       5. NAVEGACIÓN ENTRE PESTAÑAS
+       =========================================================== */
+    function navigate(tab) {
+      if (state.tab === 'simulacro' && state.simulacro.phase === 'running' && tab !== 'simulacro') {
+        openConfirmModal(
+          'Salir del simulacro',
+          'Hay un simulacro en curso. Si cambias de pestaña perderás el avance de este intento.',
+          () => {
+            stopSimulacroTimer();
+            state.simulacro.phase = 'setup';
+            state.tab = tab;
+            if (tab === 'practicar' && state.practice.queue.length === 0) {
+              buildPracticeQueue();
+            }
+            render();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          },
+          'Salir'
+        );
+        return;
+      }
+
+      state.tab = tab;
+      if (tab === 'practicar' && state.practice.queue.length === 0) {
+        buildPracticeQueue();
+      }
+      render();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateNavStyles() {
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        const active = btn.dataset.tab === state.tab;
+        btn.className = `tab-btn px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+          active
+            ? 'bg-unalm-50 dark:bg-unalm-900/40 text-unalm-700 dark:text-unalm-200'
+            : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+        }`;
+      });
+
+      document.querySelectorAll('.tab-mob-btn').forEach(btn => {
+        const active = btn.dataset.tabMob === state.tab;
+        btn.className = `tab-mob-btn py-1.5 rounded-lg text-xs font-medium text-center transition-colors ${
+          active
+            ? 'bg-unalm-50 dark:bg-unalm-900/40 text-unalm-700 dark:text-unalm-200 font-semibold'
+            : 'text-neutral-600 dark:text-neutral-400'
+        }`;
+      });
+    }
+
+    function render() {
+      updateNavStyles();
+      const root = document.getElementById('app-root');
+      if (state.tab === 'temario') root.innerHTML = renderTemario();
+      else if (state.tab === 'practicar') root.innerHTML = renderPracticar();
+      else if (state.tab === 'simulacro') root.innerHTML = renderSimulacro();
+      else if (state.tab === 'banco') root.innerHTML = renderBanco();
+    }
+
+    /* ===========================================================
+       6. PESTAÑA 1: TEMARIO OFICIAL UNALM
+       =========================================================== */
+    function toggleCourseAccordion(courseId) {
+      state.expandedCourseId = state.expandedCourseId === courseId ? null : courseId;
+      render();
+    }
+
+    function practiceFromSyllabus(courseId, topic = 'all') {
+      const course = getCourse(courseId);
+      state.practice.areaFilter = course ? course.areaId : 'all';
+      state.practice.courseFilter = courseId;
+      state.practice.topicFilter = topic;
+      buildPracticeQueue();
+      state.tab = 'practicar';
+      render();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderTemario() {
+      const allQ = getAllQuestions();
+
+      const areasHtml = AREAS.map(area => {
+        const areaCourses = COURSES.filter(c => c.areaId === area.id);
+
+        const coursesHtml = areaCourses.map(course => {
+          const courseQs = allQ.filter(q => q.course === course.id);
+          const isOpen = state.expandedCourseId === course.id;
+
+          const topicsList = course.topics.map(topic => {
+            const count = courseQs.filter(q => q.topic === topic).length;
+            return `
+              <div class="flex items-center justify-between gap-3 py-2 px-3 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-800/60 transition-colors">
+                <span class="text-xs sm:text-sm text-neutral-700 dark:text-neutral-300">${escapeHTML(topic)}</span>
+                <div class="flex items-center gap-2 shrink-0">
+                  <span class="text-xs tabular-nums text-neutral-500 dark:text-neutral-400">${count} preg.</span>
+                  ${count > 0 ? `
+                    <button onclick="practiceFromSyllabus('${course.id}', '${escapeHTML(topic)}')" class="text-xs font-medium text-unalm-700 dark:text-unalm-200 hover:underline">
+                      Practicar
+                    </button>
+                  ` : ''}
+                </div>
+              </div>
+            `;
+          }).join('');
+
+          return `
+            <div class="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl overflow-hidden">
+              <button onclick="toggleCourseAccordion('${course.id}')" class="w-full px-4 py-3.5 flex items-center justify-between gap-3 text-left hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors">
+                <div>
+                  <div class="font-semibold text-sm text-neutral-900 dark:text-white">${course.name}</div>
+                  <div class="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
+                    Examen oficial: ${String(course.officialCount).padStart(2, '0')} preguntas &middot; En banco: ${courseQs.length}
+                  </div>
+                </div>
+                <svg class="w-4 h-4 text-neutral-400 transition-transform ${isOpen ? 'rotate-180' : ''}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
+
+              ${isOpen ? `
+                <div class="border-t border-neutral-200 dark:border-neutral-800 px-3 py-3 space-y-1">
+                  <div class="flex items-center justify-between px-3 pb-2 mb-1 border-b border-neutral-100 dark:border-neutral-800">
+                    <span class="text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">Temas oficiales (${course.topics.length})</span>
+                    <button onclick="practiceFromSyllabus('${course.id}', 'all')" class="px-3 py-1 rounded-lg bg-unalm-700 hover:bg-unalm-800 text-white text-xs font-medium transition-colors">
+                      Practicar curso (${courseQs.length})
+                    </button>
+                  </div>
+                  ${topicsList}
+                </div>
+              ` : ''}
+            </div>
+          `;
+        }).join('');
+
+        return `
+          <section class="space-y-2.5">
+            <div class="flex items-baseline justify-between border-b border-neutral-200 dark:border-neutral-800 pb-1.5">
+              <h2 class="font-semibold text-sm sm:text-base text-neutral-900 dark:text-white">${area.name}</h2>
+              <span class="text-xs font-medium text-neutral-500 dark:text-neutral-400">${area.officialCount} preguntas en examen</span>
+            </div>
+            <div class="space-y-2">
+              ${coursesHtml}
+            </div>
+          </section>
+        `;
+      }).join('');
+
+      return `
+        <div class="space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+            <div>
+              <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-neutral-900 dark:text-white">Temario Oficial de Admisión UNALM</h1>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
+                Estructura oficial del examen: 100 preguntas distribuidas en 4 áreas y 12 cursos, con una duración de 180 minutos.
+              </p>
+            </div>
+            <div class="text-xs text-neutral-500 dark:text-neutral-400 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-lg px-3 py-2 shrink-0">
+              Total en banco actual: <strong class="text-neutral-900 dark:text-white">${allQ.length} preguntas</strong>
+            </div>
+          </div>
+
+          <div class="space-y-6">
+            ${areasHtml}
+          </div>
+        </div>
+      `;
+    }
+
+    /* ===========================================================
+       7. PESTAÑA 2: PRACTICAR CON FILTROS Y PUNTAJE ACUMULADO
+       =========================================================== */
+    function buildPracticeQueue() {
+      const p = state.practice;
+      const allQ = getAllQuestions();
+
+      let filtered = allQ.filter(q => {
+        const course = getCourse(q.course);
+        if (!course) return false;
+        if (p.areaFilter !== 'all' && course.areaId !== p.areaFilter) return false;
+        if (p.courseFilter !== 'all' && q.course !== p.courseFilter) return false;
+        if (p.topicFilter !== 'all' && q.topic !== p.topicFilter) return false;
+        return true;
+      });
+
+      p.queue = shuffle(filtered);
+      p.index = 0;
+      p.selected = null;
+      p.resolved = false;
+      p.wasBlank = false;
+    }
+
+    function onPracticeAreaChange(areaId) {
+      state.practice.areaFilter = areaId;
+      state.practice.courseFilter = 'all';
+      state.practice.topicFilter = 'all';
+      buildPracticeQueue();
+      render();
+    }
+
+    function onPracticeCourseChange(courseId) {
+      state.practice.courseFilter = courseId;
+      if (courseId !== 'all') {
+        const c = getCourse(courseId);
+        if (c) state.practice.areaFilter = c.areaId;
+      }
+      state.practice.topicFilter = 'all';
+      buildPracticeQueue();
+      render();
+    }
+
+    function onPracticeTopicChange(topic) {
+      state.practice.topicFilter = topic;
+      buildPracticeQueue();
+      render();
+    }
+
+    function answerPractice(optIdx) {
+      const p = state.practice;
+      if (p.resolved) return;
+      const q = p.queue[p.index];
+      if (!q) return;
+
+      p.selected = optIdx;
+      p.resolved = true;
+      p.wasBlank = false;
+
+      if (optIdx === q.answer) p.stats.correct += 1;
+      else p.stats.incorrect += 1;
+
+      render();
+    }
+
+    function skipPracticeBlank() {
+      const p = state.practice;
+      if (p.resolved) return;
+      p.selected = null;
+      p.resolved = true;
+      p.wasBlank = true;
+      p.stats.blank += 1;
+      render();
+    }
+
+    function nextPractice() {
+      const p = state.practice;
+      if (p.index < p.queue.length - 1) {
+        p.index += 1;
+        p.selected = null;
+        p.resolved = false;
+        p.wasBlank = false;
+      } else {
+        // Reiniciar cola mezclada al terminar
+        buildPracticeQueue();
+        showToast('Se completó el lote filtrado. Se ha mezclado nuevamente.');
+      }
+      render();
+    }
+
+    function resetPracticeStats() {
+      state.practice.stats = { correct: 0, incorrect: 0, blank: 0 };
+      render();
+      showToast('Puntaje de práctica reiniciado.');
+    }
+
+    function renderPracticar() {
+      const p = state.practice;
+      const letters = ['A', 'B', 'C', 'D', 'E'];
+
+      // Cursos disponibles según área
+      const availableCourses = p.areaFilter === 'all'
+        ? COURSES
+        : COURSES.filter(c => c.areaId === p.areaFilter);
+
+      // Temas disponibles según curso
+      const selectedCourseObj = p.courseFilter !== 'all' ? getCourse(p.courseFilter) : null;
+      const availableTopics = selectedCourseObj ? selectedCourseObj.topics : [];
+
+      const totalScore = calcScore(p.stats.correct, p.stats.incorrect);
+      const q = p.queue[p.index];
+
+      let questionCardHtml = '';
+      if (!q) {
+        questionCardHtml = `
+          <div class="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl p-8 text-center">
+            <p class="text-sm font-medium text-neutral-700 dark:text-neutral-300">No hay preguntas registradas para el filtro seleccionado.</p>
+            <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Puedes elegir otro tema o agregar preguntas nuevas en la pestaña Banco.</p>
+          </div>
+        `;
+      } else {
+        const courseObj = getCourse(q.course);
+        const optionsHtml = q.options.map((opt, idx) => {
+          let cls = 'bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-700 hover:border-unalm-700 dark:hover:border-unalm-600 text-neutral-800 dark:text-neutral-100';
+          let badgeCls = 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300';
+
+          if (p.resolved) {
+            if (idx === q.answer) {
+              cls = 'bg-unalm-50 dark:bg-unalm-900/30 border-unalm-700 text-unalm-900 dark:text-unalm-100';
+              badgeCls = 'bg-unalm-700 text-white';
+            } else if (!p.wasBlank && idx === p.selected && idx !== q.answer) {
+              cls = 'bg-red-50 dark:bg-red-950/30 border-red-600 text-red-900 dark:text-red-200';
+              badgeCls = 'bg-red-600 text-white';
+            } else {
+              cls = 'bg-neutral-50 dark:bg-neutral-900/50 border-neutral-200 dark:border-neutral-800 text-neutral-400 dark:text-neutral-500';
+            }
+          }
+
+          return `
+            <button
+              onclick="answerPractice(${idx})"
+              ${p.resolved ? 'disabled' : ''}
+              class="w-full text-left p-3.5 rounded-xl border transition-colors flex items-start gap-3 ${cls} ${p.resolved ? 'cursor-default' : 'cursor-pointer'}"
+            >
+              <span class="w-6 h-6 shrink-0 rounded-md text-xs font-semibold flex items-center justify-center ${badgeCls}">${letters[idx]}</span>
+              <span class="text-sm leading-snug pt-0.5">${escapeHTML(opt)}</span>
+            </button>
+          `;
+        }).join('');
+
+        let feedbackHtml = '';
+        if (p.resolved) {
+          let statusTitle = '';
+          let statusClass = '';
+          if (p.wasBlank) {
+            statusTitle = `Dejada en blanco (0.00 pts) — Clave correcta: ${letters[q.answer]}`;
+            statusClass = 'bg-neutral-100 dark:bg-neutral-800/80 border-neutral-300 dark:border-neutral-700 text-neutral-800 dark:text-neutral-200';
+          } else if (p.selected === q.answer) {
+            statusTitle = 'Respuesta correcta (+1.00 pt)';
+            statusClass = 'bg-unalm-50 dark:bg-unalm-900/25 border-unalm-200 dark:border-unalm-800 text-unalm-900 dark:text-unalm-100';
+          } else {
+            statusTitle = `Respuesta incorrecta (-0.17 pts) — Clave correcta: ${letters[q.answer]}`;
+            statusClass = 'bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-900 text-red-900 dark:text-red-200';
+          }
+
+          feedbackHtml = `
+            <div class="mt-5 p-4 rounded-xl border ${statusClass}">
+              <div class="font-semibold text-sm mb-1.5">${statusTitle}</div>
+              <p class="text-xs sm:text-sm leading-relaxed opacity-90">${escapeHTML(q.explanation)}</p>
+            </div>
+            <div class="mt-4 flex justify-end">
+              <button onclick="nextPractice()" class="px-5 py-2.5 rounded-lg bg-unalm-700 hover:bg-unalm-800 text-white text-sm font-medium transition-colors">
+                Siguiente
+              </button>
+            </div>
+          `;
+        } else {
+          feedbackHtml = `
+            <div class="mt-4 flex justify-end">
+              <button onclick="skipPracticeBlank()" class="px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-700 text-xs font-medium text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors">
+                Dejar en blanco (0.00)
+              </button>
+            </div>
+          `;
+        }
+
+        questionCardHtml = `
+          <div class="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl p-5 sm:p-6">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-neutral-100 dark:border-neutral-800 text-xs text-neutral-500 dark:text-neutral-400">
+              <span><strong class="text-neutral-800 dark:text-neutral-200">${courseObj ? courseObj.name : q.course}</strong> &middot; ${escapeHTML(q.topic)}</span>
+              <span class="tabular-nums">Pregunta ${p.index + 1} de ${p.queue.length}</span>
+            </div>
+
+            <p class="text-sm sm:text-base font-medium text-neutral-900 dark:text-white leading-relaxed mb-5">
+              ${escapeHTML(q.question)}
+            </p>
+
+            <div class="space-y-2">
+              ${optionsHtml}
+            </div>
+
+            ${feedbackHtml}
+          </div>
+        `;
+      }
+
+      return `
+        <div class="space-y-5">
+          <!-- Filtros -->
+          <div class="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl p-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-neutral-500 dark:text-neutral-400 mb-1">Área</label>
+              <select onchange="onPracticeAreaChange(this.value)" class="w-full px-3 py-2 rounded-lg bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-sm focus:outline-none focus:ring-1 focus:ring-unalm-700">
+                <option value="all" ${p.areaFilter === 'all' ? 'selected' : ''}>Todas las áreas</option>
+                ${AREAS.map(a => `<option value="${a.id}" ${p.areaFilter === a.id ? 'selected' : ''}>${a.name}</option>`).join('')}
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-neutral-500 dark:text-neutral-400 mb-1">Curso</label>
+              <select onchange="onPracticeCourseChange(this.value)" class="w-full px-3 py-2 rounded-lg bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-sm focus:outline-none focus:ring-1 focus:ring-unalm-700">
+                <option value="all" ${p.courseFilter === 'all' ? 'selected' : ''}>Todos los cursos</option>
+                ${availableCourses.map(c => `<option value="${c.id}" ${p.courseFilter === c.id ? 'selected' : ''}>${c.name}</option>`).join('')}
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-neutral-500 dark:text-neutral-400 mb-1">Tema</label>
+              <select onchange="onPracticeTopicChange(this.value)" ${p.courseFilter === 'all' ? 'disabled' : ''} class="w-full px-3 py-2 rounded-lg bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-sm disabled:opacity-50 focus:outline-none focus:ring-1 focus:ring-unalm-700">
+                <option value="all" ${p.topicFilter === 'all' ? 'selected' : ''}>Todos los temas</option>
+                ${availableTopics.map(t => `<option value="${escapeHTML(t)}" ${p.topicFilter === t ? 'selected' : ''}>${escapeHTML(t)}</option>`).join('')}
+              </select>
+            </div>
+          </div>
+
+          <!-- Resumen de puntaje acumulado -->
+          <div class="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl px-4 py-3 flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm">
+            <div class="flex flex-wrap items-center gap-4 tabular-nums">
+              <span>Puntaje acumulado: <strong class="font-bold text-unalm-700 dark:text-unalm-200">${formatScore(totalScore)}</strong></span>
+              <span class="text-neutral-500 dark:text-neutral-400">Correctas: <strong class="text-neutral-800 dark:text-neutral-200">${p.stats.correct}</strong></span>
+              <span class="text-neutral-500 dark:text-neutral-400">Incorrectas: <strong class="text-neutral-800 dark:text-neutral-200">${p.stats.incorrect}</strong></span>
+              <span class="text-neutral-500 dark:text-neutral-400">En blanco: <strong class="text-neutral-800 dark:text-neutral-200">${p.stats.blank}</strong></span>
+            </div>
+            <button onclick="resetPracticeStats()" class="text-xs font-medium text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white underline">
+              Reiniciar puntaje
+            </button>
+          </div>
+
+          ${questionCardHtml}
+        </div>
+      `;
+    }
+
+    /* ===========================================================
+       8. PESTAÑA 3: SIMULACRO CRONOMETRADO
+       =========================================================== */
+    function stopSimulacroTimer() {
+      if (state.simulacro.timerId) {
+        clearInterval(state.simulacro.timerId);
+        state.simulacro.timerId = null;
+      }
+    }
+
+    function formatClock(totalSeconds) {
+      const m = Math.floor(Math.max(0, totalSeconds) / 60);
+      const s = Math.max(0, totalSeconds) % 60;
+      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function startSimulacro(mode) {
+      const allQ = getAllQuestions();
+      let selected = [];
+      let minutes = 36;
+
+      if (mode === 'quick') {
+        const count = Math.min(20, allQ.length);
+        selected = shuffle(allQ).slice(0, count);
+        minutes = Math.max(1, Math.round(count * 1.8)); // 1.8 min por pregunta (proporcional a 180 min / 100 preg)
+      } else {
+        selected = shuffle(allQ);
+        minutes = Math.max(1, Math.round(selected.length * 1.8));
+      }
+
+      stopSimulacroTimer();
+      state.simulacro = {
+        phase: 'running',
+        questions: selected,
+        answers: {},
+        currentIndex: 0,
+        secondsLeft: minutes * 60,
+        timerId: null
+      };
+
+      state.simulacro.timerId = setInterval(() => {
+        state.simulacro.secondsLeft -= 1;
+        const clockEl = document.getElementById('sim-clock');
+        if (clockEl) {
+          clockEl.textContent = formatClock(state.simulacro.secondsLeft);
+        }
+        if (state.simulacro.secondsLeft <= 0) {
+          finishSimulacro(true);
+        }
+      }, 1000);
+
+      render();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function selectSimOption(optIdx) {
+      const idx = state.simulacro.currentIndex;
+      if (state.simulacro.answers[idx] === optIdx) {
+        delete state.simulacro.answers[idx];
+      } else {
+        state.simulacro.answers[idx] = optIdx;
+      }
+      render();
+    }
+
+    function clearSimOption() {
+      delete state.simulacro.answers[state.simulacro.currentIndex];
+      render();
+    }
+
+    function goToSimQuestion(idx) {
+      if (idx < 0 || idx >= state.simulacro.questions.length) return;
+      state.simulacro.currentIndex = idx;
+      render();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function askFinishSimulacro() {
+      const total = state.simulacro.questions.length;
+      const answered = Object.keys(state.simulacro.answers).length;
+      const blank = total - answered;
+      openConfirmModal(
+        'Finalizar simulacro',
+        `Has marcado ${answered} de ${total} preguntas (${blank} en blanco). Se calculará tu puntaje con +1.00 por correcta, -0.17 por incorrecta y 0.00 en blanco.`,
+        () => finishSimulacro(false),
+        'Finalizar y calificar'
+      );
+    }
+
+    function finishSimulacro(auto = false) {
+      stopSimulacroTimer();
+      state.simulacro.phase = 'results';
+      if (auto) showToast('Tiempo finalizado. El simulacro se calificó automáticamente.');
+      render();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderSimulacro() {
+      const sim = state.simulacro;
+      const allQ = getAllQuestions();
+      const letters = ['A', 'B', 'C', 'D', 'E'];
+
+      // --- FASE 1: CONFIGURACIÓN ---
+      if (sim.phase === 'setup') {
+        const fullMin = Math.round(allQ.length * 1.8);
+        return `
+          <div class="max-w-2xl mx-auto space-y-6">
+            <div>
+              <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-neutral-900 dark:text-white">Simulacro Cronometrado</h1>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
+                Tiempo proporcional al examen oficial (1.8 minutos por pregunta). Puedes dejar preguntas en blanco para evitar la penalidad.
+              </p>
+            </div>
+
+            <div class="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl p-5 space-y-5">
+              <div class="grid grid-cols-3 gap-3 text-center">
+                <div class="p-3 rounded-lg bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200 dark:border-neutral-700">
+                  <div class="font-bold text-base text-unalm-700 dark:text-unalm-200">+1.00</div>
+                  <div class="text-xs text-neutral-500 dark:text-neutral-400">Correcta</div>
+                </div>
+                <div class="p-3 rounded-lg bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200 dark:border-neutral-700">
+                  <div class="font-bold text-base text-red-600 dark:text-red-400">-0.17</div>
+                  <div class="text-xs text-neutral-500 dark:text-neutral-400">Incorrecta</div>
+                </div>
+                <div class="p-3 rounded-lg bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200 dark:border-neutral-700">
+                  <div class="font-bold text-base text-neutral-700 dark:text-neutral-300">0.00</div>
+                  <div class="text-xs text-neutral-500 dark:text-neutral-400">En blanco</div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <button onclick="startSimulacro('quick')" class="p-4 rounded-xl border border-neutral-200 dark:border-neutral-700 hover:border-unalm-700 dark:hover:border-unalm-600 text-left transition-colors">
+                  <div class="font-semibold text-sm text-neutral-900 dark:text-white">Simulacro Rápido</div>
+                  <div class="text-xs text-neutral-500 dark:text-neutral-400 mt-1">20 preguntas &middot; 36 minutos</div>
+                </button>
+
+                <button onclick="startSimulacro('full')" class="p-4 rounded-xl border border-unalm-700 bg-unalm-50/50 dark:bg-unalm-900/20 text-left transition-colors hover:bg-unalm-50 dark:hover:bg-unalm-900/30">
+                  <div class="font-semibold text-sm text-unalm-900 dark:text-unalm-100">Simulacro Completo del Banco</div>
+                  <div class="text-xs text-neutral-600 dark:text-neutral-400 mt-1">${allQ.length} preguntas &middot; ${fullMin} minutos</div>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // --- FASE 2: EN CURSO ---
+      if (sim.phase === 'running') {
+        const q = sim.questions[sim.currentIndex];
+        const courseObj = getCourse(q.course);
+        const selected = sim.answers[sim.currentIndex];
+
+        const navButtons = sim.questions.map((_, i) => {
+          const isCurrent = i === sim.currentIndex;
+          const isAnswered = sim.answers[i] !== undefined;
+          let cls = 'bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border-transparent';
+          if (isAnswered) cls = 'bg-unalm-700 text-white border-unalm-700';
+          if (isCurrent) cls += ' ring-2 ring-neutral-900 dark:ring-white ring-offset-1 dark:ring-offset-neutral-900';
+
+          return `<button onclick="goToSimQuestion(${i})" class="h-8 rounded-md text-xs font-medium border tabular-nums ${cls}">${i + 1}</button>`;
+        }).join('');
+
+        return `
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div class="lg:col-span-8 space-y-4">
+              <div class="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl px-4 py-3 flex items-center justify-between gap-3">
+                <span class="text-xs font-semibold text-neutral-700 dark:text-neutral-200 tabular-nums">
+                  Pregunta ${sim.currentIndex + 1} de ${sim.questions.length}
+                </span>
+                <div class="flex items-center gap-3">
+                  <span id="sim-clock" class="font-mono text-sm font-semibold tabular-nums text-neutral-900 dark:text-white">
+                    ${formatClock(sim.secondsLeft)}
+                  </span>
+                  <button onclick="askFinishSimulacro()" class="px-3.5 py-1.5 rounded-lg bg-unalm-700 hover:bg-unalm-800 text-white text-xs font-medium transition-colors">
+                    Finalizar
+                  </button>
+                </div>
+              </div>
+
+              <div class="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl p-5 sm:p-6">
+                <div class="text-xs text-neutral-500 dark:text-neutral-400 mb-3">
+                  <strong class="text-neutral-800 dark:text-neutral-200">${courseObj ? courseObj.name : q.course}</strong> &middot; ${escapeHTML(q.topic)}
+                </div>
+
+                <p class="text-sm sm:text-base font-medium text-neutral-900 dark:text-white leading-relaxed mb-5">
+                  ${escapeHTML(q.question)}
+                </p>
+
+                <div class="space-y-2">
+                  ${q.options.map((opt, idx) => {
+                    const isSel = selected === idx;
+                    return `
+                      <button onclick="selectSimOption(${idx})" class="w-full text-left p-3.5 rounded-xl border transition-colors flex items-start gap-3 ${
+                        isSel
+                          ? 'bg-unalm-50 dark:bg-unalm-900/30 border-unalm-700 text-unalm-900 dark:text-unalm-100'
+                          : 'bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-700 hover:border-unalm-600 text-neutral-800 dark:text-neutral-100'
+                      }">
+                        <span class="w-6 h-6 shrink-0 rounded-md text-xs font-semibold flex items-center justify-center ${
+                          isSel ? 'bg-unalm-700 text-white' : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300'
+                        }">${letters[idx]}</span>
+                        <span class="text-sm leading-snug pt-0.5">${escapeHTML(opt)}</span>
+                      </button>
+                    `;
+                  }).join('')}
+                </div>
+
+                <div class="mt-5 pt-4 border-t border-neutral-100 dark:border-neutral-800 flex flex-wrap items-center justify-between gap-2">
+                  <button onclick="goToSimQuestion(${sim.currentIndex - 1})" ${sim.currentIndex === 0 ? 'disabled' : ''} class="px-3.5 py-2 rounded-lg text-xs font-medium border border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-200 disabled:opacity-40 hover:bg-neutral-50 dark:hover:bg-neutral-800">
+                    Anterior
+                  </button>
+
+                  ${selected !== undefined ? `
+                    <button onclick="clearSimOption()" class="px-3 py-2 rounded-lg text-xs font-medium text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white underline">
+                      Dejar en blanco
+                    </button>
+                  ` : ''}
+
+                  ${sim.currentIndex < sim.questions.length - 1 ? `
+                    <button onclick="goToSimQuestion(${sim.currentIndex + 1})" class="px-4 py-2 rounded-lg text-xs font-medium bg-unalm-700 hover:bg-unalm-800 text-white">
+                      Siguiente
+                    </button>
+                  ` : `
+                    <button onclick="askFinishSimulacro()" class="px-4 py-2 rounded-lg text-xs font-medium bg-unalm-700 hover:bg-unalm-800 text-white">
+                      Entregar simulacro
+                    </button>
+                  `}
+                </div>
+              </div>
+            </div>
+
+            <!-- Navegador lateral -->
+            <aside class="lg:col-span-4">
+              <div class="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl p-4 sticky top-20">
+                <h2 class="text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-3">Navegación</h2>
+                <div class="grid grid-cols-5 sm:grid-cols-6 lg:grid-cols-5 gap-1.5">
+                  ${navButtons}
+                </div>
+                <div class="mt-4 pt-3 border-t border-neutral-100 dark:border-neutral-800 flex items-center gap-4 text-xs text-neutral-500 dark:text-neutral-400">
+                  <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-unalm-700 inline-block"></span> Marcada</span>
+                  <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-neutral-200 dark:bg-neutral-700 inline-block"></span> En blanco</span>
+                </div>
+              </div>
+            </aside>
+          </div>
+        `;
+      }
+
+      // --- FASE 3: RESULTADOS ---
+      let correct = 0, incorrect = 0, blank = 0;
+      const areaStats = {};
+      AREAS.forEach(a => {
+        areaStats[a.id] = { name: a.name, total: 0, correct: 0, incorrect: 0, blank: 0 };
+      });
+
+      sim.questions.forEach((q, idx) => {
+        const c = getCourse(q.course);
+        const aId = c ? c.areaId : 'competencias';
+        if (!areaStats[aId]) areaStats[aId] = { name: aId, total: 0, correct: 0, incorrect: 0, blank: 0 };
+        areaStats[aId].total += 1;
+
+        const ans = sim.answers[idx];
+        if (ans === undefined) {
+          blank += 1;
+          areaStats[aId].blank += 1;
+        } else if (ans === q.answer) {
+          correct += 1;
+          areaStats[aId].correct += 1;
+        } else {
+          incorrect += 1;
+          areaStats[aId].incorrect += 1;
+        }
+      });
+
+      const finalScore = calcScore(correct, incorrect);
+      const maxScore = sim.questions.length * SCORE_CORRECT;
+
+      const areaRowsHtml = Object.values(areaStats)
+        .filter(a => a.total > 0)
+        .map(a => {
+          const areaScore = calcScore(a.correct, a.incorrect);
+          return `
+            <div class="flex flex-wrap items-center justify-between gap-2 py-2.5 px-3 rounded-lg bg-neutral-50 dark:bg-neutral-800/60 text-xs sm:text-sm">
+              <span class="font-medium text-neutral-800 dark:text-neutral-200">${a.name}</span>
+              <div class="flex items-center gap-4 tabular-nums text-xs">
+                <span class="text-neutral-500 dark:text-neutral-400">${a.correct} bien / ${a.incorrect} mal / ${a.blank} blanco</span>
+                <strong class="text-unalm-700 dark:text-unalm-200">${formatScore(areaScore)}</strong>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+      const reviewHtml = sim.questions.map((q, idx) => {
+        const ans = sim.answers[idx];
+        const c = getCourse(q.course);
+        let badge = '';
+        if (ans === undefined) badge = '<span class="text-xs font-medium text-neutral-500 dark:text-neutral-400">En blanco (0.00)</span>';
+        else if (ans === q.answer) badge = '<span class="text-xs font-semibold text-unalm-700 dark:text-unalm-200">Correcta (+1.00)</span>';
+        else badge = '<span class="text-xs font-semibold text-red-600 dark:text-red-400">Incorrecta (-0.17)</span>';
+
+        return `
+          <div class="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl p-4 space-y-2">
+            <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+              <span class="text-neutral-500 dark:text-neutral-400">#${idx + 1} &middot; ${c ? c.name : q.course} &middot; ${escapeHTML(q.topic)}</span>
+              ${badge}
+            </div>
+            <p class="text-sm font-medium text-neutral-900 dark:text-white">${escapeHTML(q.question)}</p>
+            <div class="text-xs space-y-1">
+              ${ans !== undefined && ans !== q.answer ? `<p class="text-red-600 dark:text-red-400">Tu respuesta: ${letters[ans]}) ${escapeHTML(q.options[ans])}</p>` : ''}
+              <p class="text-unalm-700 dark:text-unalm-200 font-medium">Respuesta correcta: ${letters[q.answer]}) ${escapeHTML(q.options[q.answer])}</p>
+            </div>
+            <p class="text-xs text-neutral-600 dark:text-neutral-400 pt-1 border-t border-neutral-100 dark:border-neutral-800 leading-relaxed">
+              ${escapeHTML(q.explanation)}
+            </p>
+          </div>
+        `;
+      }).join('');
+
+      return `
+        <div class="space-y-6">
+          <div class="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+            <div>
+              <div class="text-xs font-medium uppercase tracking-wider text-neutral-500 dark:text-neutral-400">Puntaje Final</div>
+              <div class="text-3xl sm:text-4xl font-bold tabular-nums text-unalm-700 dark:text-unalm-200 mt-1">
+                ${formatScore(finalScore)} <span class="text-base font-normal text-neutral-500">/ ${maxScore.toFixed(2)}</span>
+              </div>
+              <div class="flex flex-wrap gap-4 mt-3 text-xs text-neutral-600 dark:text-neutral-400 tabular-nums">
+                <span>Correctas: <strong class="text-neutral-900 dark:text-white">${correct}</strong></span>
+                <span>Incorrectas: <strong class="text-neutral-900 dark:text-white">${incorrect}</strong></span>
+                <span>En blanco: <strong class="text-neutral-900 dark:text-white">${blank}</strong></span>
+              </div>
+            </div>
+            <div>
+              <button onclick="state.simulacro.phase='setup'; render();" class="px-4 py-2.5 rounded-lg bg-unalm-700 hover:bg-unalm-800 text-white text-xs font-medium transition-colors">
+                Nuevo simulacro
+              </button>
+            </div>
+          </div>
+
+          <div class="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl p-5 space-y-2.5">
+            <h2 class="text-sm font-semibold text-neutral-900 dark:text-white">Resumen por Área</h2>
+            ${areaRowsHtml}
+          </div>
+
+          <div class="space-y-3">
+            <h2 class="text-sm font-semibold text-neutral-900 dark:text-white">Revisión de Respuestas</h2>
+            ${reviewHtml}
+          </div>
+        </div>
+      `;
+    }
+
+    /* ===========================================================
+       9. PESTAÑA 4: BANCO DE PREGUNTAS (AGREGAR / EXPORTAR / IMPORTAR)
+       =========================================================== */
+    function updateBankTopicsSelect(courseId) {
+      const select = document.getElementById('bank-topic-select');
+      if (!select) return;
+      const course = getCourse(courseId);
+      const topics = course ? course.topics : [];
+      select.innerHTML = topics.map(t => `<option value="${escapeHTML(t)}">${escapeHTML(t)}</option>`).join('');
+    }
+
+    function handleAddBankQuestion(e) {
+      e.preventDefault();
+      const form = e.target;
+      const course = form.course.value;
+      const topic = form.topic.value;
+      const question = form.question.value.trim();
+      const options = [
+        form.opt0.value.trim(),
+        form.opt1.value.trim(),
+        form.opt2.value.trim(),
+        form.opt3.value.trim(),
+        form.opt4.value.trim()
+      ];
+      const answer = Number(form.answer.value);
+      const explanation = form.explanation.value.trim();
+
+      if (!question || options.some(o => !o) || !explanation) {
+        showToast('Completa todos los campos antes de guardar.', true);
+        return;
+      }
+
+      state.customQuestions.unshift({
+        id: 'usr-' + Date.now(),
+        course,
+        topic,
+        question,
+        options,
+        answer,
+        explanation
+      });
+
+      saveState();
+      buildPracticeQueue();
+      showToast('Pregunta agregada al banco.');
+      render();
+    }
+
+    function deleteBankQuestion(id) {
+      openConfirmModal(
+        'Eliminar pregunta',
+        'Esta pregunta personalizada se eliminará permanentemente de tu navegador.',
+        () => {
+          state.customQuestions = state.customQuestions.filter(q => q.id !== id);
+          saveState();
+          buildPracticeQueue();
+          showToast('Pregunta eliminada.');
+          render();
+        },
+        'Eliminar'
+      );
+    }
+
+    function exportJSON() {
+      const data = JSON.stringify(getAllQuestions(), null, 2);
+      const blob = new Blob([data], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'practica-unalm-banco.json';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      showToast('Banco exportado en formato JSON.');
+    }
+
+    function importJSON(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        try {
+          const parsed = JSON.parse(ev.target.result);
+          if (!Array.isArray(parsed)) throw new Error('Formato no válido');
+
+          const existingIds = new Set(getAllQuestions().map(q => q.id));
+          let count = 0;
+
+          parsed.forEach((item, idx) => {
+            const validCourse = COURSES.find(c => c.id === item.course);
+            if (validCourse && item.question && Array.isArray(item.options) && item.options.length === 5 && typeof item.answer === 'number') {
+              const id = item.id && !existingIds.has(item.id) ? item.id : `imp-${Date.now()}-${idx}`;
+              if (!existingIds.has(id)) {
+                const validTopic = validCourse.topics.includes(item.topic) ? item.topic : validCourse.topics[0];
+                state.customQuestions.push({
+                  id,
+                  course: validCourse.id,
+                  topic: validTopic,
+                  question: String(item.question),
+                  options: item.options.map(String),
+                  answer: Math.min(4, Math.max(0, item.answer)),
+                  explanation: item.explanation ? String(item.explanation) : 'Sin explicación.'
+                });
+                existingIds.add(id);
+                count += 1;
+              }
+            }
+          });
+
+          saveState();
+          buildPracticeQueue();
+          showToast(`Se importaron ${count} preguntas nuevas.`);
+          render();
+        } catch (err) {
+          showToast('No se pudo leer el archivo JSON.', true);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function renderBanco() {
+      const firstCourse = COURSES[0];
+      const customListHtml = state.customQuestions.length === 0
+        ? '<p class="text-xs text-neutral-500 dark:text-neutral-400">No has agregado preguntas personalizadas todavía.</p>'
+        : state.customQuestions.map(q => {
+            const c = getCourse(q.course);
+            return `
+              <div class="p-3 rounded-lg bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200 dark:border-neutral-700 flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                  <div class="text-[11px] font-medium text-unalm-700 dark:text-unalm-200">${c ? c.name : q.course} &middot; ${escapeHTML(q.topic)}</div>
+                  <p class="text-xs text-neutral-800 dark:text-neutral-200 mt-0.5 line-clamp-2">${escapeHTML(q.question)}</p>
+                </div>
+                <button onclick="deleteBankQuestion('${q.id}')" class="shrink-0 text-xs font-medium text-red-600 dark:text-red-400 hover:underline">
+                  Eliminar
+                </button>
+              </div>
+            `;
+          }).join('');
+
+      return `
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div class="lg:col-span-7 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl p-5 sm:p-6">
+            <h1 class="text-lg font-bold text-neutral-900 dark:text-white">Agregar Pregunta</h1>
+            <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-1 mb-5">
+              Asigna cada pregunta a un curso y tema exacto del Temario Oficial UNALM.
+            </p>
+
+            <form onsubmit="handleAddBankQuestion(event)" class="space-y-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-1">Curso</label>
+                  <select name="course" onchange="updateBankTopicsSelect(this.value)" class="w-full px-3 py-2 rounded-lg bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-sm focus:outline-none focus:ring-1 focus:ring-unalm-700">
+                    ${COURSES.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-1">Tema oficial</label>
+                  <select id="bank-topic-select" name="topic" class="w-full px-3 py-2 rounded-lg bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-sm focus:outline-none focus:ring-1 focus:ring-unalm-700">
+                    ${firstCourse.topics.map(t => `<option value="${escapeHTML(t)}">${escapeHTML(t)}</option>`).join('')}
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-1">Enunciado</label>
+                <textarea name="question" rows="3" required placeholder="Escribe la pregunta..." class="w-full px-3 py-2 rounded-lg bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-sm focus:outline-none focus:ring-1 focus:ring-unalm-700"></textarea>
+              </div>
+
+              <div class="space-y-2">
+                <label class="block text-xs font-medium text-neutral-700 dark:text-neutral-300">Alternativas (A - E)</label>
+                ${['A', 'B', 'C', 'D', 'E'].map((l, i) => `
+                  <div class="flex items-center gap-2">
+                    <span class="w-6 h-6 shrink-0 rounded bg-neutral-100 dark:bg-neutral-800 text-xs font-semibold flex items-center justify-center text-neutral-600 dark:text-neutral-300">${l}</span>
+                    <input name="opt${i}" required placeholder="Alternativa ${l}" class="w-full px-3 py-1.5 rounded-lg bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-sm focus:outline-none focus:ring-1 focus:ring-unalm-700" />
+                  </div>
+                `).join('')}
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-1">Respuesta correcta</label>
+                <select name="answer" class="w-full px-3 py-2 rounded-lg bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-sm focus:outline-none focus:ring-1 focus:ring-unalm-700">
+                  <option value="0">Alternativa A</option>
+                  <option value="1">Alternativa B</option>
+                  <option value="2">Alternativa C</option>
+                  <option value="3">Alternativa D</option>
+                  <option value="4">Alternativa E</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-1">Explicación breve</label>
+                <textarea name="explanation" rows="2" required placeholder="Explica el fundamento de la respuesta..." class="w-full px-3 py-2 rounded-lg bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-sm focus:outline-none focus:ring-1 focus:ring-unalm-700"></textarea>
+              </div>
+
+              <button type="submit" class="w-full py-2.5 rounded-lg bg-unalm-700 hover:bg-unalm-800 text-white text-sm font-medium transition-colors">
+                Guardar en el banco
+              </button>
+            </form>
+          </div>
+
+          <div class="lg:col-span-5 space-y-5">
+            <div class="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl p-5 space-y-3">
+              <h2 class="text-sm font-semibold text-neutral-900 dark:text-white">Exportar e Importar JSON</h2>
+              <p class="text-xs text-neutral-500 dark:text-neutral-400">
+                Banco actual: ${getAllQuestions().length} preguntas (${INITIAL_QUESTIONS.length} base y ${state.customQuestions.length} personalizadas).
+              </p>
+              <div class="flex gap-2">
+                <button onclick="exportJSON()" class="flex-1 px-3 py-2 rounded-lg border border-unalm-700 text-unalm-700 dark:text-unalm-200 hover:bg-unalm-50 dark:hover:bg-unalm-900/30 text-xs font-medium transition-colors">
+                  Exportar JSON
+                </button>
+                <label class="flex-1 text-center cursor-pointer px-3 py-2 rounded-lg border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-50 dark:hover:bg-neutral-800 text-xs font-medium transition-colors">
+                  Importar JSON
+                  <input type="file" accept=".json" onchange="importJSON(event)" class="hidden" />
+                </label>
+              </div>
+            </div>
+
+            <div class="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl p-5 space-y-3">
+              <h2 class="text-sm font-semibold text-neutral-900 dark:text-white">Preguntas Personalizadas (${state.customQuestions.length})</h2>
+              <div class="space-y-2 max-h-80 overflow-y-auto">
+                ${customListHtml}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    /* ===========================================================
+       10. INICIALIZACIÓN
+       =========================================================== */
+    window.addEventListener('DOMContentLoaded', () => {
+      loadState();
+      buildPracticeQueue();
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+      render();
+    });
+  </script>
+</body>
+</html>
